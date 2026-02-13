@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pomodoro 90</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Fira+Code:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>POMODORO 90</h1>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+        <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+        <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+    </header>
+
+    <section class="timer-card">
+      <!-- Inline SVG: meditating figure -->
+      <div class="illustration">
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- head -->
+          <circle cx="40" cy="18" r="7" stroke="#1A1A2E" stroke-width="2" fill="none"/>
+          <!-- body -->
+          <path d="M40 25 L40 45" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round"/>
+          <!-- legs crossed -->
+          <path d="M30 55 Q35 45 40 45 Q45 45 50 55" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <path d="M25 58 Q30 52 35 55" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <path d="M55 58 Q50 52 45 55" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <!-- arms -->
+          <path d="M40 33 Q30 38 26 34" stroke="#2EC4B6" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <path d="M40 33 Q50 38 54 34" stroke="#2EC4B6" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <!-- glow dots -->
+          <circle cx="22" cy="20" r="2" fill="#F4B9A0" opacity="0.6"/>
+          <circle cx="58" cy="20" r="2" fill="#F4B9A0" opacity="0.6"/>
+          <circle cx="40" cy="65" r="2.5" fill="#2EC4B6" opacity="0.4"/>
+        </svg>
+      </div>
+
+      <div class="timer-display" id="timerDisplay">90:00</div>
+      <div class="timer-label">FOCUS TIME</div>
+
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+
+      <div class="controls">
+        <button id="playBtn" class="btn btn-play">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><polygon points="3,1 13,8 3,15"/></svg>
+          <span>Play</span>
+        </button>
+        <button id="pauseBtn" class="btn btn-icon" disabled aria-label="Pause">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><rect x="3" y="2" width="3.5" height="12" rx="1"/><rect x="9.5" y="2" width="3.5" height="12" rx="1"/></svg>
+        </button>
+        <button id="resetBtn" class="btn btn-icon" aria-label="Reset">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8a6 6 0 1 1 1.5 4"/><polyline points="2 13 2 9 6 9"/></svg>
+        </button>
+      </div>
+    </section>
+
+    <section class="tasks-section">
+      <div class="tasks-header">
+        <h2>Tasks</h2>
+        <span class="task-count" id="taskCount">0/0</span>
+      </div>
+
+      <div class="task-list-card">
+        <ul class="task-list" id="taskList"></ul>
+      </div>
+
+      <form class="task-form" id="taskForm">
+        <input type="text" id="taskInput" placeholder="Add a task..." autocomplete="off">
+        <button type="submit" class="btn btn-add" aria-label="Add task">+</button>
+      </form>
+    </section>
+
+    <section class="stats-section">
+      <h2>Today's Sessions</h2>
+      <div class="stats-summary" id="statsSummary"></div>
+      <div class="session-list-card">
+        <ul class="session-list" id="sessionList"></ul>
+      </div>
+    </section>
+  </div>
+
+  <audio id="focusAudio" loop preload="auto"
+    src="https://cdn.pixabay.com/download/audio/2025/07/22/audio_526e1c9d08.mp3?filename=mohamed_hassan-tranquil-focus-378403.mp3">
+  </audio>
+
+  <script src="app.js"></script>
+</body>
+</html>

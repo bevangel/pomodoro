@@ -1,0 +1,541 @@
+/* ── Reset ──────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ── CSS Custom Properties (Light theme) ───────────── */
+:root {
+  --bg: #F7F7F5;
+  --card: #FFFFFF;
+  --accent: #2EC4B6;
+  --accent-hover: #1AAB9E;
+  --accent-shadow: rgba(46, 196, 182, 0.3);
+  --text-primary: #1A1A2E;
+  --text-secondary: #6B7280;
+  --done: #C4C8D0;
+  --danger: #E85D75;
+  --highlight: #E8FAF8;
+  --divider: #ECECEA;
+  --icon-bg: #F0F0EE;
+  --track: #ECECEA;
+  --illustration-stroke: #1A1A2E;
+}
+
+/* ── Dark Mode ─────────────────────────────────────── */
+[data-theme="dark"] {
+  --bg: #1A1A2E;
+  --card: #1F2937;
+  --text-primary: #E8E8E8;
+  --text-secondary: #9CA3AF;
+  --divider: #2D3748;
+  --icon-bg: #2D3748;
+  --track: #2D3748;
+  --illustration-stroke: #E8E8E8;
+}
+
+/* ── Body ──────────────────────────────────────────── */
+body {
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 3rem 1rem;
+  transition: background 0.3s, color 0.3s;
+}
+
+.container {
+  width: 100%;
+  max-width: 480px;
+}
+
+/* ── Header ────────────────────────────────────────── */
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+header h1 {
+  font-size: 14px;
+  letter-spacing: 0.25em;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.theme-toggle {
+  position: absolute;
+  right: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-secondary);
+  padding: 6px;
+  border-radius: 8px;
+  transition: color 0.2s, background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-toggle:hover {
+  color: var(--text-primary);
+  background: var(--icon-bg);
+}
+
+/* Show sun in dark mode, moon in light mode */
+.icon-moon { display: block; }
+.icon-sun { display: none; }
+[data-theme="dark"] .icon-moon { display: none; }
+[data-theme="dark"] .icon-sun { display: block; }
+
+/* ── Timer Card ────────────────────────────────────── */
+.timer-card {
+  background: var(--card);
+  border-radius: 20px;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.04);
+  padding: 2.5rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+[data-theme="dark"] .timer-card {
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+}
+
+.illustration {
+  margin-bottom: 1rem;
+}
+
+.illustration svg {
+  display: inline-block;
+}
+
+/* Adapt illustration strokes to theme */
+[data-theme="dark"] .illustration svg circle[stroke="#1A1A2E"],
+[data-theme="dark"] .illustration svg path[stroke="#1A1A2E"] {
+  stroke: var(--illustration-stroke);
+}
+
+.timer-display {
+  font-family: "Fira Code", "SF Mono", "Courier New", monospace;
+  font-size: 72px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1;
+  margin-bottom: 0.35rem;
+}
+
+.timer-label {
+  font-size: 13px;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  letter-spacing: 0.1em;
+  margin-bottom: 1.5rem;
+}
+
+/* ── Progress Bar ──────────────────────────────────── */
+.progress-bar-container {
+  height: 4px;
+  background: var(--track);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: width 1s linear;
+}
+
+/* ── Controls ──────────────────────────────────────── */
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.btn {
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.2s, transform 0.15s, background 0.2s;
+}
+
+.btn:active {
+  transform: scale(0.95);
+}
+
+.btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+  transform: none;
+}
+
+/* Play button — pill CTA */
+.btn-play {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 50px;
+  padding: 12px 32px;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 4px 12px var(--accent-shadow);
+}
+
+.btn-play:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.btn-play svg {
+  flex-shrink: 0;
+}
+
+/* Icon buttons — circular secondary */
+.btn-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--icon-bg);
+  color: var(--text-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none;
+}
+
+.btn-icon:hover:not(:disabled) {
+  background: var(--divider);
+}
+
+/* ── Pulse animation on Play ───────────────────────── */
+@keyframes pulse {
+  0% { box-shadow: 0 4px 12px var(--accent-shadow); }
+  50% { box-shadow: 0 4px 24px var(--accent-shadow); }
+  100% { box-shadow: 0 4px 12px var(--accent-shadow); }
+}
+
+.btn-play.pulse {
+  animation: pulse 0.4s ease;
+}
+
+/* ── Timer end pulse ───────────────────────────────── */
+@keyframes timer-end-pulse {
+  0%, 100% { box-shadow: 0 2px 20px rgba(0, 0, 0, 0.04); }
+  50% { box-shadow: 0 2px 30px var(--accent-shadow); }
+}
+
+.timer-card.pulse-end {
+  animation: timer-end-pulse 0.8s ease 3;
+}
+
+/* ── Tasks Section ─────────────────────────────────── */
+.tasks-section {
+  margin-bottom: 2rem;
+}
+
+.tasks-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.tasks-header h2 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.task-count {
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+/* ── Task List Card ────────────────────────────────── */
+.task-list-card {
+  background: var(--card);
+  border-radius: 16px;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  margin-bottom: 1rem;
+  transition: background 0.3s;
+}
+
+[data-theme="dark"] .task-list-card {
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+}
+
+.task-list-card:empty,
+.task-list-card:has(ul:empty) {
+  display: none;
+}
+
+.task-list {
+  list-style: none;
+}
+
+.task-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--divider);
+  transition: background 0.15s;
+}
+
+.task-list li:last-child {
+  border-bottom: none;
+}
+
+/* ── Custom circle checkboxes ──────────────────────── */
+.task-list li .task-check {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  cursor: pointer;
+  flex-shrink: 0;
+  position: relative;
+  background: transparent;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.task-list li .task-check:checked {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.task-list li .task-check:checked::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 5px;
+  width: 5px;
+  height: 9px;
+  border: 2px solid #fff;
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg);
+}
+
+/* ── Task text ─────────────────────────────────────── */
+.task-list li .task-text {
+  flex: 1;
+  font-size: 15px;
+  font-weight: 400;
+  word-break: break-word;
+  color: var(--text-primary);
+  transition: color 0.2s;
+}
+
+.task-list li .task-text.done {
+  text-decoration: line-through;
+  color: var(--done);
+}
+
+/* ── Delete button ─────────────────────────────────── */
+.task-list li .btn-delete {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 16px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s, color 0.15s;
+  padding: 2px 4px;
+  line-height: 1;
+}
+
+.task-list li:hover .btn-delete {
+  opacity: 1;
+}
+
+.task-list li .btn-delete:hover {
+  color: var(--danger);
+}
+
+/* Always show on touch devices */
+@media (hover: none) {
+  .task-list li .btn-delete {
+    opacity: 1;
+  }
+}
+
+/* ── Task slide animations ─────────────────────────── */
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-out {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+}
+
+.task-list li.slide-in {
+  animation: slide-in 0.15s ease-out;
+}
+
+.task-list li.slide-out {
+  animation: slide-out 0.15s ease-out forwards;
+}
+
+/* ── Task Form ─────────────────────────────────────── */
+.task-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.task-form input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 2px solid var(--divider);
+  border-radius: 12px;
+  background: var(--card);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s, background 0.3s;
+}
+
+.task-form input::placeholder {
+  color: var(--text-secondary);
+}
+
+.task-form input:focus {
+  border-color: var(--accent);
+}
+
+.btn-add {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 22px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px var(--accent-shadow);
+}
+
+.btn-add:hover {
+  background: var(--accent-hover);
+}
+
+/* ── Stats Section ─────────────────────────────────── */
+.stats-section h2 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+}
+
+.stats-summary {
+  font-size: 14px;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.session-list-card {
+  background: var(--card);
+  border-radius: 16px;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  transition: background 0.3s;
+}
+
+[data-theme="dark"] .session-list-card {
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+}
+
+.session-list {
+  list-style: none;
+}
+
+.session-list:empty + .stats-summary,
+.session-list:empty {
+  display: block;
+}
+
+.session-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--divider);
+  font-size: 14px;
+}
+
+.session-list li:last-child {
+  border-bottom: none;
+}
+
+.session-time {
+  color: var(--text-secondary);
+}
+
+.session-badge {
+  padding: 2px 10px;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.session-badge.completed {
+  background: var(--accent);
+  color: #fff;
+}
+
+
+/* ── Responsive ────────────────────────────────────── */
+@media (max-width: 500px) {
+  body {
+    padding: 2rem 0.75rem;
+  }
+
+  .timer-display {
+    font-size: 56px;
+  }
+
+  .timer-card {
+    padding: 2rem 1.25rem;
+  }
+}
