@@ -1,6 +1,6 @@
 # Pomodoro 90 — Design Refresh
 
-## Inspiration: Balance App by Elevate Labs
+## Inspiration:
 Clean, calming, minimal. White space is a feature, not empty space.
 
 ---
